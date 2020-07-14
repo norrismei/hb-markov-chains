@@ -11,6 +11,7 @@ def open_and_read_file(file_path):
     """
 
     contents = open(file_path).read()
+    contents = contents.replace("\n", " ")
 
     return contents
 
@@ -42,8 +43,25 @@ def make_chains(text_string):
 
     chains = {}
 
-    # your code goes here
+    # Create list of words from our string
+    tokens = text_string.split(" ")
 
+    for i in range(len(tokens) - 2):
+        # Create bigram as tuple
+        bigram = (tokens[i], tokens[i + 1])
+        # Get the word that follows the bigram
+        next_word = tokens[i + 2]
+        # If bigram already exists in dict, append next word
+        # to the list of next words in the value
+        if bigram in chains:
+            chains[bigram].append(next_word)
+        # If bigram doesn't exist in dict, create new key, value pair where
+        # bigram is key and value is an empty list
+        else:
+            chains[bigram] = []
+            # Now that we have the list, append next word to it
+            chains[bigram].append(next_word)
+    
     return chains
 
 
