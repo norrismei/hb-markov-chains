@@ -1,6 +1,6 @@
 """Generate Markov text from text files."""
 
-from random import choice
+import random
 
 
 def open_and_read_file(file_path):
@@ -64,14 +64,29 @@ def make_chains(text_string):
     
     return chains
 
-
 def make_text(chains):
     """Return text from chains."""
 
     words = []
+    # Get a random bigram from our list of dictionary keys
+    bigrams = list(chains.keys())
+    random_bigram = random.choice(bigrams)
+    # Initialize bigram to be the random bigram to start
+    bigram = random_bigram
 
-    # your code goes here
+    while bigram in chains:
+        # Add the first word in our bigram to words list
+        words.append(bigram[0])
+        # Pick a random word from the values list
+        random_next_word = random.choice(chains[bigram])
+        # Combine second word of bigram and random word for next bigram
+        next_bigram = (bigram[1], random_next_word)
+        # Set bigram to equal the next bigram
+        # so it can be evaluated in the while loop again
+        bigram = next_bigram
 
+    words.append(bigram[0])
+    
     return " ".join(words)
 
 
